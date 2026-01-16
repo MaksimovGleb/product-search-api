@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name')->index();
             $table->decimal('price', 12, 2);
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('category_id')->constrained()->onDelete('cascade');
             $table->boolean('in_stock')->default(true)->index();
             $table->float('rating', 3, 2)->default(0);
             $table->timestamps();
