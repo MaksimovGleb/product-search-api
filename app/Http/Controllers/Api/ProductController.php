@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\DTOs\ProductFilterDTO;
+use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
@@ -14,13 +15,13 @@ class ProductController extends Controller
         private readonly ProductService $productService
     ) {}
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
         $dto = ProductFilterDTO::fromRequest($request);
 
         $products = $this->productService->getFilteredProducts($dto);
 
-        return response()->json($products);
+        return ProductResource::collection($products);
     }
 }
 
